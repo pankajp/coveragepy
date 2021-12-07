@@ -8,7 +8,7 @@
 
 flaky
 hypothesis
-pytest
+pytest==7.0.0rc1
 pytest-xdist
 # Use a fork of PyContracts that supports Python 3.9
 #PyContracts==1.8.12
