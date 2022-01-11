@@ -520,10 +520,14 @@ coverage.build_scroll_markers = function () {
 
     const scroll_marker = document.createElement("div");
     scroll_marker.id = "scroll_marker";
-    document.getElementById('source').querySelectorAll(
-        'p.show_run, p.show_mis, p.show_exc, p.show_exc, p.show_par'
-    ).forEach(element => {
-        const line_top = Math.floor(element.offsetTop * marker_scale);
+    const elements = document.getElementById('source').querySelectorAll(
+        'p.show_run, p.show_mis, p.show_exc, p.show_par'
+    );
+    // Precompute line_top to prevent layout-threashing caused by offsetTop+styleUpdate a single loop
+    const line_tops = {};
+    elements.forEach(element => {line_tops[element.id] = Math.floor(element.offsetTop * marker_scale)});
+    elements.forEach(element => {
+        const line_top = line_tops[element.id];
         const line_number = parseInt(element.id.substr(1));
 
         if (line_number === previous_line + 1) {
